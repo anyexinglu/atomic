@@ -5,6 +5,8 @@ import {
     Variant, VariantHandler, CSSObject, CSSEntries
 } from './interface'
 
+export * from './interface'
+
 console.log('...rules', rules)
 
 function isStaticRule(rule: Rule): rule is StaticRule {
