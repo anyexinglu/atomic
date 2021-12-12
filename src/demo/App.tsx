@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { AtomicGenerator, StringifiedUtil } from '../atomic'
-import { demoEntries } from './data'
+import { jsDemoEntries, cssDemosEntries } from './data'
 import config from './config'
 
 // 过滤出带小写字母、数字、横线（-）、冒号（:）的非空字符串，unocss 是只要有字母就行（ /[a-z?]/）
 function isValidSelector(selector = '') {
-  return /^[a-z0-9-:!]+$/.test(selector)
+  return /^[a-z0-9-:!\/]+$/.test(selector)
 }
 
 const getTokens = (fileContent: string) =>
@@ -13,13 +13,13 @@ const getTokens = (fileContent: string) =>
 
 const atomic = new AtomicGenerator(config)
 
-const demoTypes = demoEntries.map((item) => item[0])
 const defaultTypeIndex = 0
 
 function App() {
-  const [type, setType] = useState(demoTypes[defaultTypeIndex])
-  const [value, setValue] = useState(demoEntries[defaultTypeIndex][1])
   const [direction, setDirection] = useState(['tsx(className)', 'style'])
+  const demoEntries = direction[0] === 'tsx(className)' ? jsDemoEntries : cssDemosEntries
+  const [type, setType] = useState(demoEntries[defaultTypeIndex][0])
+  const [value, setValue] = useState(demoEntries[defaultTypeIndex][1])
   const tokens = Array.from(new Set(getTokens(value)))
   const [result, setResult] = useState({
     sheet: [] as StringifiedUtil[],
@@ -30,7 +30,7 @@ function App() {
 
   useEffect(() => {
     setValue(demoEntries.find((item) => item[0] === type)?.[1] || '')
-  }, [type])
+  }, [type, demoEntries])
 
   useEffect(() => {
     ;(async () => {
@@ -48,10 +48,11 @@ function App() {
         <div className="text-base text-center">
           {direction[0]}
           <span
+            className="bg-gray-200 py-2 px-4 rounded-5 m-4 inline-block cursor-pointer"
+            title="点击改变转化方向"
             onClick={() => {
-              setDirection((dir) => {
-                return [dir[1], dir[0]]
-              })
+              setType((direction[1] === 'tsx(className)' ? jsDemoEntries : cssDemosEntries)[0][0])
+              setDirection([direction[1], direction[0]])
             }}
           >
             {' '}
@@ -59,16 +60,17 @@ function App() {
           </span>{' '}
           {direction[1]}
         </div>
-        <div className="inline-flex text-[12px] rounded-[3px] p-1 leading-[2] bg-gray-200">
-          {demoTypes.map((itemType) => {
+        <div className="inline-flex text-12 rounded-3 p-2 m-4 leading-2 bg-gray-200">
+          {demoEntries.map(([itemType]) => {
             return (
               <span
+                key={itemType}
                 onClick={() => {
                   setType(itemType)
                 }}
                 className={`${
                   type === itemType ? 'bg-slate-100 text-sky-600' : 'text-black'
-                } rounded-[3px] min-w-[60px] px-1 cursor-pointer text-center`}
+                } rounded-3 min-w-[60px] px-4 cursor-pointer text-center`}
               >
                 {itemType}
               </span>
@@ -79,11 +81,11 @@ function App() {
       <div className="flex flex-1">
         <textarea
           placeholder="请用空格分割"
-          className="w-1/2 border-solid border-[1px] border-gray-300 text-base p-[4px]"
+          className="w-1/2 border-solid border-1 border-gray-300 text-base p-4"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <div className="w-1/2 p-1">
+        <div className="w-1/2 p-4">
           css:
           <br />
           <p

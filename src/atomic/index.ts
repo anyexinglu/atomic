@@ -94,8 +94,6 @@ export class AtomicGenerator {
 
     async parseUtil(input: string): Promise<ParsedUtil | undefined> {
         const { rulesStaticMap, rulesDynamic, rulesSize, theme } = this.config
-        console.log('...rulesStaticMap', rulesStaticMap)
-
         const [processed, variantHandlers] = this.matchVariants(input)
 
         // use map to for static rules
