@@ -1,0 +1,6 @@
+/* reset */
+/* In Tailwind CSS v3.0, the base directive must be present for utilities like transforms, filters, and shadows to work as expected. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
