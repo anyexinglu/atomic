@@ -50,7 +50,7 @@ font-size: 16px;
 color: #FF7700;
 line-height: 16px;
 font-weight: 500;
-
+border-style: solid;
 width: 80px;
 height: 28px;
 background: #407CFF;
