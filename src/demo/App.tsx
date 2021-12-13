@@ -168,7 +168,7 @@ function ToAtomic({
   tokens.forEach((token) => {
     const className = processToAtomic(token)
     if (className) {
-      classesRef.current.push(className)
+      !classesRef.current.includes(className) && classesRef.current.push(className)
     } else {
       unknownTokens.push(token)
     }
