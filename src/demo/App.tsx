@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { RefObject, useEffect, useRef, useState } from 'react'
+import copy from 'copy-to-clipboard'
 import { AtomicGenerator, StringifiedUtil } from '../atomic'
 import { jsDemoEntries, cssDemosEntries } from './data'
 import config from './config'
@@ -30,6 +31,7 @@ function App() {
   const demoEntries = direction[0] === 'tsx(className)' ? jsDemoEntries : cssDemosEntries
   const [type, setType] = useState(demoEntries[defaultTypeIndex][0])
   const [value, setValue] = useState(demoEntries[defaultTypeIndex][1])
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     setValue(demoEntries.find((item) => item[0] === type)?.[1] || '')
@@ -72,6 +74,7 @@ function App() {
       </div>
       <div className="flex flex-1">
         <textarea
+          ref={textareaRef}
           placeholder="请用空格分割"
           className="w-1/2 border-solid border-1 border-gray-300 text-base p-4"
           value={value}
@@ -81,7 +84,7 @@ function App() {
           {direction[0] === 'tsx(className)' ? (
             <FromAtomic value={value} />
           ) : (
-            <ToAtomic value={value} />
+            <ToAtomic value={value} type={type} textareaRef={textareaRef} />
           )}
         </div>
       </div>
@@ -136,7 +139,15 @@ function FromAtomic({ value }: { value: string }) {
   )
 }
 
-function ToAtomic({ value }: { value: string }) {
+function ToAtomic({
+  type,
+  value,
+  textareaRef
+}: {
+  type: string
+  value: string
+  textareaRef: RefObject<HTMLTextAreaElement>
+}) {
   const styles = value
     .split('\n')
     .filter((item) => item.includes(':'))
@@ -151,16 +162,43 @@ function ToAtomic({ value }: { value: string }) {
     )
   )
 
-  const classes: string[] = []
+  const classesRef = useRef<string[]>([])
+  classesRef.current = []
   const unknownTokens: string[][] = []
   tokens.forEach((token) => {
     const className = processToAtomic(token)
     if (className) {
-      classes.push(className)
+      classesRef.current.push(className)
     } else {
       unknownTokens.push(token)
     }
   })
+
+  // 剪切板跟着内容变化
+  const clsStr = `className="${classesRef.current.join(' ')}"`
+  useEffect(() => {
+    clsStr && copy(clsStr)
+  }, [clsStr])
+
+  let content
+  if (type === 'design tool') {
+    content = (
+      <p>
+        <button
+          className="bg-gray-200 text-sm p-3 rounded-3"
+          onClick={() => {
+            copy(clsStr)
+          }}
+        >
+          点我复制
+        </button>
+        <br />
+        <span>className="{classesRef.current.join(' ')}"</span>
+      </p>
+    )
+  } else {
+    content = classesRef.current.map((item) => <div key={item}>{item}</div>)
+  }
 
   console.log('..识别出来全部的组合：', tokens)
 
@@ -168,11 +206,7 @@ function ToAtomic({ value }: { value: string }) {
     <>
       css:
       <br />
-      <p>
-        {classes.map((item) => (
-          <div>{item}</div>
-        ))}
-      </p>
+      <div>{content}</div>
       <br />
       <br />
       未识别的 tokens:
