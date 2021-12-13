@@ -18,6 +18,7 @@
 
 #### TODOs
 
+- [ ] 修复 w-1/2、p-3.2 需要转译值的问题（unocss 目前回取整）
 - 尝试连写：
   - [ ] spacing（padding / margin）的连写，比如 p-2-4 表示 { padding: 2px 4px }
   - [ ] border / background 的连写，，比如 b-2-solid-pink 表示 { border: 2px solid pink }
@@ -34,4 +35,7 @@ atomic 的 Playground。
 - 不支持连写（atomic 可以支持）
 - 颜色等不能用任意值，需要在 theme 里定义后才能用（如果业务偏好任意值，atomic 里支持起来很容易）
 - vscode 插件，要空格后才能提示样式（不过 “warn 错误用法” 的功能很不错，且 theme 改了对应的联想也更新了很棒）
-- 嵌套结构设置样式书写不便，比如 ul 的 li 要挨个设置 className，不能 ul li { ... } 的标签嵌套写法。
+
+另外 unocss 和 tailwind 相比较：
+
+- 在嵌套结构设置样式方面，tailwind 支持通过 @apply 命令实现，而 unocss 不支持 @apply，只支持用 shortcuts 实现简写（但简写不能满足标签嵌套的需求）。

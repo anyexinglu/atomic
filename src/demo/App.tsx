@@ -15,7 +15,7 @@ import {
 
 // 过滤出带小写字母、数字、横线（-）、冒号（:）的非空字符串，unocss 是只要有字母就行（ /[a-z?]/）
 function isValidSelector(selector = '') {
-  return /^[a-z0-9-:!\/]+$/.test(selector)
+  return /^[a-z0-9-.:!\/]+$/.test(selector)
 }
 
 const getTokens = (fileContent: string) =>
@@ -54,7 +54,7 @@ function App() {
           </span>{' '}
           {direction[1]}
         </div>
-        <div className="inline-flex text-12 rounded-3 p-2 m-4 leading-2 bg-gray-200">
+        <div className="inline-flex text-12 rounded-3 p-2 m-4 leading-2 bg-gray-200 demoTabs">
           {demoEntries.map(([itemType]) => {
             return (
               <span
@@ -62,9 +62,7 @@ function App() {
                 onClick={() => {
                   setType(itemType)
                 }}
-                className={`${
-                  type === itemType ? 'bg-slate-100 text-sky-600' : 'text-black'
-                } rounded-3 min-w-[60px] px-4 cursor-pointer text-center`}
+                className={`${type === itemType ? 'bg-slate-100 text-sky-600' : 'text-black'}`}
               >
                 {itemType}
               </span>

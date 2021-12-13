@@ -4,3 +4,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.demoTabs span {
+  @apply rounded-3 min-w-[60px] px-4 cursor-pointer text-center;
+}

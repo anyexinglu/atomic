@@ -5,7 +5,7 @@ font500
 leading-3
 w-1/2
 b b-1 border-solid border-black border-gray-100 rounded-1
-m1 m-y-2 p-t-4 pt4 mx-auto m-auto
+m1 m-y-2 p-t-4 pt4 mx-auto m-auto p-3.2
 flex-1 justify-center flex-row flex-col flex-wrap	
 inline block flex 
 absolute relative
