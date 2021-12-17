@@ -2,7 +2,9 @@
 
 参考 [tailwind](https://tailwindcss.com/) 的命名、[unocss](https://github.com/antfu/unocss) 的核心代码，仿制一个简易版（阉割版）的原子 CSS 库，用以学习和自用。
 
-## 如何体验
+试用地址：<a href="https://atomic-lemon.vercel.app">atomic-lemon.vercel.app</a>
+
+## 本地启动
 
 - git clone git@github.com:anyexinglu/atomic.git
 - cd atomic && pnpm i && pnpm dev
