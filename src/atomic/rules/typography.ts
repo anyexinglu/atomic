@@ -27,13 +27,9 @@ const weightMap: Record<string, string> = {
 
 export const fontSizes: Rule<Theme>[] = [
   [/^text-([^-]+)$/, ([, s = 'base'], { theme }) => {
-    const result = toArray(theme.fontSize?.[s] || h.bracket.px(s))
-    if (result?.[0]) {
-      const [size, height = '1'] = result
-      return {
-        'font-size': size,
-        'line-height': height,
-      }
+    const size = theme.fontSize?.[s] || h.bracket.px(s)
+    return {
+      'font-size': size,
     }
   }],
 ]

@@ -53,7 +53,7 @@ export interface Theme {
   breakpoints?: Record<string, string>
   colors?: Record<string, string | Record<string, string>>
   fontFamily?: Record<string, string>
-  fontSize?: Record<string, [string, string]>
+  fontSize?: Record<string, string | number>
   lineHeight?: Record<string, string>
   letterSpacing?: Record<string, string>
   boxShadow?: Record<string, string>
